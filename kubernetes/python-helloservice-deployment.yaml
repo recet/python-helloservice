@@ -1,0 +1,30 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: python-helloservice
+  labels:
+    app: helloservice
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: helloservice
+    spec:
+      containers:
+      - name: helloservice
+        image: recet/python-helloservice:v1
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            memory: 200Mi
+            cpu: 200m
+        ports:
+        - containerPort: 5000
