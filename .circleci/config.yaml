@@ -5,7 +5,7 @@ jobs:
       - image: circleci/python:2.7-stretch-node
     #working_directory: /go/src/github.com/CircleCI-Public/circleci-demo-docker
     steps:
-      - checkout
+      #- checkout
       # ... steps for building/testing app ...
 
       - setup_remote_docker:   
