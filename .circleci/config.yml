@@ -1,12 +1,16 @@
 version: 2
 jobs:
   build:
+    working_directory: ~/tmp
     docker:
       - image: circleci/python:2.7-stretch-node
     #working_directory: /go/src/github.com/CircleCI-Public/circleci-demo-docker
     steps:
-      #- checkout
+      - checkout
       # ... steps for building/testing app ...
+      - run: 
+          name: Test requirements.
+          command: pip install --no-cache-dir -r requirements.txt
 
       - setup_remote_docker:   
           docker_layer_caching: true 
