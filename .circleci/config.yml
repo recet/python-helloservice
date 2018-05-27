@@ -32,3 +32,31 @@ jobs:
           docker build -t   recet/python-helloservice:$TAG .      # (4)
           docker login -u $DOCKER_USER -p $DOCKER_PASS         # (5)
           docker push recet/python-helloservice:$TAG
+
+      # Start deployment process.
+      # Install gcp tools 
+      - run: 
+          name: Download & install Google SDK
+          command: curl https://dl.google.com/dl/cloudsdk/channels/rapid/install_google_cloud_sdk.bash -o gcloud_install.sh && sudo sh gcloud_install.sh --disable-prompts --install-dir="/bin"
+      - run: 
+          name: Installing kubectl using Google SDK
+          command: sudo /bin/google-cloud-sdk/bin/gcloud --quiet components install kubectl
+      - run: 
+          name: Update PATH
+          command: echo 'export PATH=/bin/google-cloud-sdk/bin:$PATH' >> $BASH_ENV
+      - run: 
+          name: Dump Google Cloud Credentials to file
+          command: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json 
+      - run:
+          name: Authenticate with SA
+          command: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+      - run: 
+          name: Activating gcloud configuration
+          command: |
+            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+            gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+      # Deploy to env.
+      - run:
+          name: Deploy new version of app
+          command: kubectl patch deployment python-helloservice -p '{"spec":{"template":{"spec":{"containers":[{"name":"python-helloservice","image":"recet/python-helloservice:'"$TAG"'"}]}}}}'

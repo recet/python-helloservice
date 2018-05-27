@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: helloservice
-        image: recet/python-helloservice:v2
+        image: recet/python-helloservice:0.1.6
         resources:
           requests:
             cpu: 100m
