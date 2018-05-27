@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/tmp
     docker:
-      - image: circleci/python:2.7-stretch-node
+      - image: python:3
     #working_directory: /go/src/github.com/CircleCI-Public/circleci-demo-docker
     steps:
       - checkout
