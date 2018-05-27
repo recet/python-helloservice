@@ -31,10 +31,10 @@ jobs:
       - run:
           name: Build and push
           command: |
-          TAG=0.1.$CIRCLE_BUILD_NUM
-          docker build -t   recet/python-helloservice:$TAG .      # (4)
-          docker login -u $DOCKER_USER -p $DOCKER_PASS         # (5)
-          docker push recet/python-helloservice:$TAG
+            TAG=0.1.$CIRCLE_BUILD_NUM
+            docker build -t   recet/python-helloservice:$TAG .      # (4)
+            docker login -u $DOCKER_USER -p $DOCKER_PASS         # (5)
+            docker push recet/python-helloservice:$TAG
 
   # Start deployment process for gcp.
   # Install gcp tools 
