@@ -3,7 +3,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Flask Dockerized CD'
+    return 'Flask Dockerized'
 
 @app.route('/returnName')
 def returnName():
